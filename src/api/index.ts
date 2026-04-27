@@ -1,15 +1,9 @@
 import express from 'express';
 
-import tasksRouter from './tasks';
+import tasksRouter from './tasks.routes';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({
-    message: 'Root API response',
-  });
-});
-
-router.use('/', tasksRouter);
+router.use('/tasks', tasksRouter);
 
 export default router;
