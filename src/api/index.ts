@@ -1,6 +1,6 @@
 import express from 'express';
 
-import peopleRouter from './people';
+import peopleRouter from './tasks';
 
 const router = express.Router();
 
