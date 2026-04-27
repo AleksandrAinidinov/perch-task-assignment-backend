@@ -1,10 +1,11 @@
 import { PrimaryKey, Model, Table, Column, AllowNull } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { TaskAttributes, TaskCreationAttributes } from './task.types';
 
 @Table({
   tableName: 'Tasks',
 })
-class Task extends Model<Task> {
+class Task extends Model<TaskAttributes, TaskCreationAttributes> {
   @PrimaryKey
   @Column({
     type: DataTypes.INTEGER,

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import peopleRouter from './tasks';
+import tasksRouter from './tasks';
 
 const router = express.Router();
 
@@ -10,6 +10,6 @@ router.get('/', (req, res) => {
   });
 });
 
-router.use('/people', peopleRouter);
+router.use('/', tasksRouter);
 
 export default router;

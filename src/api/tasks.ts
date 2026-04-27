@@ -1,42 +1,81 @@
 import express from 'express';
-import sequelize from '../database';
+import Task from '../database/models/task.model'
 
 const router = express.Router();
 
-// Add GET /tasks - Retrieve a list of Tasks
+// GET /tasks - Retrieve a list of Tasks
 router.get('/tasks', async (req, res) => {
-  const tasks = await sequelize.models.Task.findAll();
+  try {
+    const tasks = await Task.findAll();
 
-  res.json({
-    data: tasks,
-  });
+    return res.json({
+      data: tasks,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to fetch tasks!" });
+  }
 });
 
-// Add POST /tasks - Create new Tasks
+// POST /tasks - Create new Tasks
 router.post('/tasks', async (req, res) => {
-  const tasks = await sequelize.models.Task.findAll();
+  try {
+    const { title, description } = req.body;
 
-  res.json({
-    data: tasks,
-  });
+    if (!title) {
+      return res.status(400).json({ message: "Title is required!" });
+    }
+
+    const newTask = await Task.create({ title, description, completed: false });
+
+    return res.json({
+      data: newTask,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to create task!" });
+  }
 });
 
-// Add PATCH /tasks/:id - Update the status of a Task (complete or incomplete)
+// PATCH /tasks/:id - Update the status of a Task (complete or incomplete)
 router.patch('/tasks/:id', async (req, res) => {
-  const tasks = await sequelize.models.Task.findAll();
+  try {
+    const { id } = req.params;
+    const { completed } = req.body;
 
-  res.json({
-    data: tasks,
-  });
+    const taskToChange = await Task.findByPk(id);
+
+    if (!taskToChange) {
+      return res.status(404).json({ message: "Task not found!" });
+    }
+
+    await taskToChange.update({
+      completed: completed,
+    });
+
+    res.json({
+      data: taskToChange,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to edit task's status!" });
+  }
 });
 
-// Add DELETE /tasks/:id - Delete a Task
+// DELETE /tasks/:id - Delete a Task
 router.delete('/tasks/:id', async (req, res) => {
-  const tasks = await sequelize.models.Task.findAll();
+  try {
+    const { id } = req.params;
 
-  res.json({
-    data: tasks,
-  });
+    const taskToDelete = await Task.findByPk(id);
+
+    if (!taskToDelete) {
+      return res.status(404).json({ message: "Task not found!" });
+    }
+
+    await taskToDelete.destroy();
+
+    return res.status(204).json({ message: "Task deleted successfully!" });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to delete task!" });
+  }
 });
 
 export default router;
