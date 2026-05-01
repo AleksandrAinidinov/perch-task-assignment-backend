@@ -1,9 +1,10 @@
-import { PrimaryKey, Model, Table, Column, AllowNull } from 'sequelize-typescript';
+import { PrimaryKey, Model, Table, Column } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { TaskAttributes, TaskCreationAttributes } from './task.types';
 
 @Table({
   tableName: 'Tasks',
+  paranoid: true,
 })
 class Task extends Model<TaskAttributes, TaskCreationAttributes> {
   @PrimaryKey
