@@ -20,14 +20,14 @@ router.get('/', async (req: Request, res: Response) => {
 // POST /tasks - Create a new Task
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, priority } = req.body;
 
-    const validationError = validateTaskInput(title, description);
+    const validationError = validateTaskInput(title, description, priority);
     if (validationError) {
       return res.status(400).json({ message: validationError });
     }
 
-    const newTask = await Task.create({ title: title.trim(), description: description?.trim(), completed: false });
+    const newTask = await Task.create({ title: title.trim(), description: description?.trim(), priority: priority?.trim(), completed: false });
 
     res.status(201).json({
       data: newTask,

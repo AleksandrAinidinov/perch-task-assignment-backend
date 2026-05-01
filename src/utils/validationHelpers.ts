@@ -1,4 +1,4 @@
-export const validateTaskInput = (title: any, description: any): string | null => {
+export const validateTaskInput = (title: any, description: any, priority: any): string | null => {
   if (!title || typeof title !== 'string' || title.trim().length === 0) {
     return 'Title is required and must be a valid string!';
   }
@@ -7,6 +7,12 @@ export const validateTaskInput = (title: any, description: any): string | null =
   if (description !== undefined && typeof description !== 'string') {
     return 'Description must be a valid string!';
   }
+
+  const allowedPriorityTypes = ['Low', 'Medium', 'High'];
+  if (priority !== undefined && typeof priority !== 'string' || !allowedPriorityTypes.includes(priority.trim())) {
+    return "Priority must be either 'Low', 'Medium' or 'High'!"
+  }
+
   return null;
 };
 

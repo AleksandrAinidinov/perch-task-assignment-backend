@@ -1,6 +1,7 @@
-import { PrimaryKey, Model, Table, Column } from 'sequelize-typescript';
+import { PrimaryKey, Model, Table, Column, AllowNull } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { TaskAttributes, TaskCreationAttributes } from './task.types';
+import { defaultValueSchemable } from 'sequelize/types/utils';
 
 @Table({
   tableName: 'Tasks',
@@ -28,6 +29,13 @@ class Task extends Model<TaskAttributes, TaskCreationAttributes> {
     comment: 'Description of the task',
   })
   declare description: string;
+
+  @Column({
+    type: DataTypes.TEXT,
+    comment: 'Priority of the task ((Low, Medium, High)',
+    defaultValue: 'Medium',
+  })
+  declare priority: string;
 
   @Column({
     type: DataTypes.BOOLEAN,
