@@ -3,6 +3,7 @@ export interface TaskAttributes {
   title: string;
   description?: string;
   priority: string;
+  dueDate: Date;
   completed: boolean;
 }
 
@@ -10,5 +11,6 @@ export interface TaskCreationAttributes {
   title: string;
   description?: string;
   priority: string;
+  dueDate: Date;
   completed: boolean;
 }

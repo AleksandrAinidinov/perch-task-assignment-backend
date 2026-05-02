@@ -1,4 +1,4 @@
-export const validateTaskInput = (title: any, description: any, priority: any): string | null => {
+export const validateTaskInput = (title: any, description: any, priority: any, dueDate: any): string | null => {
   if (!title || typeof title !== 'string' || title.trim().length === 0) {
     return 'Title is required and must be a valid string!';
   }
@@ -11,6 +11,14 @@ export const validateTaskInput = (title: any, description: any, priority: any): 
   const allowedPriorityTypes = ['Low', 'Medium', 'High'];
   if (priority !== undefined && typeof priority !== 'string' || !allowedPriorityTypes.includes(priority.trim())) {
     return "Priority must be either 'Low', 'Medium' or 'High'!"
+  }
+
+  // date validation
+  const date = new Date(dueDate);
+  // const today = new Date();
+  // today.setHours(0, 0, 0, 0); 
+  if (isNaN(date.getTime())) {
+    return "Due Date must be a date type!"
   }
 
   return null;

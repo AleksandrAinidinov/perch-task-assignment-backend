@@ -20,14 +20,15 @@ router.get('/', async (req: Request, res: Response) => {
 // POST /tasks - Create a new Task
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { title, description, priority } = req.body;
+    const { title, description, priority, dueDate } = req.body;
+    //console.log('Incoming Task Data:', req.body);
 
-    const validationError = validateTaskInput(title, description, priority);
+    const validationError = validateTaskInput(title, description, priority, dueDate);
     if (validationError) {
       return res.status(400).json({ message: validationError });
     }
 
-    const newTask = await Task.create({ title: title.trim(), description: description?.trim(), priority: priority?.trim(), completed: false });
+    const newTask = await Task.create({ title: title.trim(), description: description?.trim(), priority: priority.trim(), dueDate: dueDate.trim(), completed: false });
 
     res.status(201).json({
       data: newTask,
@@ -71,6 +72,21 @@ router.patch('/:id', async (req: Request, res: Response) => {
   }
 });
 
+
+// DELETE /tasks/completed
+router.delete('/completed', async (req: Request, res: Response) => {
+  try {
+    await Task.destroy( {
+      where: { completed: true },
+      force: true
+    });
+
+    res.status(200).json({ message: 'All completed tasks have been deleted successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete complted tasks!" });
+  }
+});
+
 // DELETE /tasks/:id - Delete a Task
 router.delete('/:id', async (req: Request, res: Response) => {
   try {
@@ -94,5 +110,6 @@ router.delete('/:id', async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to delete task!" });
   }
 });
+
 
 export default router;

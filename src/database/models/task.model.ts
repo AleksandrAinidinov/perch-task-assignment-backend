@@ -38,6 +38,12 @@ class Task extends Model<TaskAttributes, TaskCreationAttributes> {
   declare priority: string;
 
   @Column({
+    type: DataTypes.DATE,
+    comment: 'Due date of the task',
+  })
+  declare dueDate: string;
+
+  @Column({
     type: DataTypes.BOOLEAN,
     comment: 'Flag indicating if the task is completed',
     defaultValue: false,
