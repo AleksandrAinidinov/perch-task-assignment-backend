@@ -7,7 +7,9 @@ const router = express.Router();
 // GET /tasks - Get all Tasks
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const tasks = await Task.findAll();
+    const tasks = await Task.findAll({
+      order: [['id', 'ASC']]
+    });
 
     res.json({
       data: tasks,
