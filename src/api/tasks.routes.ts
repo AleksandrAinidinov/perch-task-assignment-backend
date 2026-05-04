@@ -65,7 +65,7 @@ router.patch('/:id', async (req: Request, res: Response) => {
       completed: completed,
     });
 
-    res.json({
+    res.status(200).json({
       data: taskToChange,
     });
   } catch (error) {
